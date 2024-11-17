@@ -1,2 +1,2 @@
 # ignore ALL .log files
-*.log
+*.env
