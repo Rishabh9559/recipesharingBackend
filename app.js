@@ -13,6 +13,8 @@ app.get('/',(req,res)=>{
     res.send("Backend starting .... 😉");
 })
 
+
+// Email Sending
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     secure: true,
