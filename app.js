@@ -42,7 +42,7 @@ app.post("/SignUp", async (req, res) => {
   const DublicateUser = await User.findOne({UserID:UserID});
   if (DublicateUser) {
     console.log(DublicateUser , " Dublicate user");
-    res.status(500).json({ error: "user already aviable please Login" });
+    res.status(500).json({ message: "user already aviable please Login" });
 
 
   } else {
@@ -67,18 +67,66 @@ app.post("/SignUp", async (req, res) => {
         transporter.sendMail(mailOptions, (error, info) => {
           if (error) {
             console.error(error);
-            return res.status(500).json({ error: "Server error try later" });
+            return res.status(500).json({ message: "Server error try later" });
           } else {
-            console.log("OTP send successfull");
-            res.status(200).json({ message: "OTP sent successfully!" });
+            console.log("OTP send successfull",otp);
+            res.status(200).json({ message: otp });
           }
         });
+
+        
   }
 });
 
 //  Login
 
-app.post("/Login", async (req, res) => {});
+app.post("/Login", async (req, res) => {
+
+  const {Email,Password}=req.body;
+  console.log(req.body);
+  let email = Email.toLowerCase();
+  const LoginUser= await User.findOne({Email:email, Password:Password})
+  if(LoginUser){
+    res.status(200).json({message:" User found"})
+  }
+
+  else{
+    res.status(500).json({message:"Email or Password wrong or User does not exist"})
+  }
+});
+
+// Forgot Password
+app.post("/ForgotPassword", async(req,res)=>{
+    const{Email}=req.body;
+    console.log(req.body);
+    let email=Email.toLowerCase();
+    const ForgotPasswordInfo=await User.findOne({Email:email});
+    console.log(ForgotPasswordInfo);
+    if(ForgotPasswordInfo){
+      let mailOptions = {
+        from: process.env.GMAIL_USER,
+        to:email,
+        subject:"Forgot Password",
+        text:`Your Password be : ${ForgotPasswordInfo.Password}`,
+        html:` <h2> Your Password be : ${ForgotPasswordInfo.Password} </h2>`,
+      };
+
+      transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          console.error(error);
+          return res.status(500).json({ message: "Server error try later" });
+        } else {
+          console.log("password send to mail");
+          res.status(200).json({message:"Password send to your Email"})
+        }
+      });
+
+
+    }
+    else{
+      res.status(500).json({message:"User does not exist"})
+    }
+})
 
 // Email Sending
 app.post("/send-email", (req, res) => {
