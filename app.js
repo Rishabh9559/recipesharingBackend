@@ -6,7 +6,7 @@ import mongoose from "mongoose";
 import {otp} from "./otpGenerator.js";
 import {transporter} from "./mail.js";
 import { User } from "./models/UserInfo.js";
-import { AddRecipe } from "./models/RecipeInfo.js";
+import { AddRecipe} from "./models/RecipeInfo.js";
 
 dotenv.config();
 const app = express();
@@ -127,6 +127,29 @@ app.post("/ForgotPassword", async(req,res)=>{
       res.status(500).json({message:"User does not exist"})
     }
 })
+
+//  Add Recipe
+app.post("/Add", async(req,res)=>{
+  const{RecipeName,Category,Imageurl,Ingredients,Instructions}=req.body;
+  let UserID="rishabhkushwaha9559";
+  const RecipeAdd=await AddRecipe.create({
+    UserID:UserID,
+    RecipeName:RecipeName,
+    Category:Category,
+    Imageurl:Imageurl,
+    Ingredients:Ingredients,
+    Instructions:Instructions,
+
+  });
+  if(RecipeAdd){
+    res.status(200).json({message:"Recipe add successful"});
+  }
+  else{
+    res.status(500).json({message:"some thing went wrong, please try later"});
+  }
+  
+})
+
 
 // Email Sending
 app.post("/send-email", (req, res) => {
