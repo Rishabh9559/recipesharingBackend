@@ -132,6 +132,8 @@ app.post("/ForgotPassword", async(req,res)=>{
 app.post("/Add", async(req,res)=>{
   const{RecipeName,Category,Imageurl,Ingredients,Instructions}=req.body;
   let UserID="rishabhkushwaha9559";
+  console.log(req.body);
+ 
   const RecipeAdd=await AddRecipe.create({
     UserID:UserID,
     RecipeName:RecipeName,
