@@ -23,6 +23,51 @@ app.get("/", (req, res) => {
   res.send("Backend starting .... 😉");
 });
 
+// Fetch data Lunch
+app.get("/Lunch", async (req,res)=>{
+  const Lunch= await AddRecipe.find({Category:'Lunch'});
+  if(Lunch){
+  res.status(200).json({Lunch:Lunch});
+  }
+  else{
+    res.status(500).json({message:'server error'});
+  }
+  console.log("lunch ");
+  console.log(Lunch);
+
+});
+
+//  fetch data Breakfast
+
+app.get("/Breakfast", async (req,res)=>{
+  const Breakfast=await AddRecipe.find({Category:'Breakfast'});
+  if(Breakfast){
+    res.status(200).json({Breakfast:Breakfast});
+  }
+  else{
+    res.status(500).json({message:'server error'});
+  }
+  console.log(Breakfast);
+})
+
+// fetch data Snack
+app.get("/Snack", async(req,res)=>{
+  const Snack=await AddRecipe.find({Category:'Snack'});
+  if(Snack){
+    res.status(200).json({Snack:Snack});
+  }
+  else{
+    res.status(500).json({message:'server error'});
+  }
+  console.log(Snack);
+
+})
+
+// fetch data Dinner
+app.get("/")
+
+
+
 // Sign Up
 app.post("/SignUp", async (req, res) => {
   const { FirstName, LastName, Email, Password } = req.body;
