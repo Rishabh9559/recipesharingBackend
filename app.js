@@ -1,6 +1,5 @@
 import express from "express";
 import cors from "cors";
-// import nodemailer from "nodemailer";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import { otp } from "./otpGenerator.js";
@@ -40,20 +39,26 @@ app.get("/Recipe", async (req, res) => {
   }
 });
 
+// getch by id 
+app.get("/show", async (req,res)=>{
+  const {id}=req.query;
+   const showRecipe= await AddRecipe.find({_id:id});
+   if (showRecipe){
+  res.json(showRecipe);
+   }
+   else{
+    res.status(500).json({message:'server error'});
+   }
+
+})
+
+
 // Sign Up
 app.post("/SignUp", async (req, res) => {
   const { FirstName, LastName, Email, Password } = req.body;
   //   console.log(req.body);
-  let email = Email.toLowerCase();
-  let UserID = "";
-  for (let i = 0; i < email.length; i++) {
-    let y = email.charAt(i);
-    if (y != "@") {
-      UserID += y;
-    } else {
-      break;
-    }
-  }
+let UserID = Email.toLowerCase().split("@")[0];
+ 
 
   // database store Signup
   const DublicateUser = await User.findOne({ UserID: UserID });
@@ -61,18 +66,10 @@ app.post("/SignUp", async (req, res) => {
     console.log(DublicateUser, " Dublicate user");
     res.status(500).json({ message: "user already aviable please Login" });
   } else {
-    const user = await User.create({
-      FirstName: FirstName,
-      LastName: LastName,
-      Email: email,
-      Password: Password,
-      UserID: UserID,
-    });
-    console.log("data store done :");
 
     let mailOptions = {
       from: process.env.GMAIL_USER,
-      to: email,
+      to: Email,
       subject: "OTP",
       text: `One Time Password OTP : ${otp}`,
       html: ` <h2> One Time Password OTP : ${otp} </h2>`,
@@ -85,8 +82,21 @@ app.post("/SignUp", async (req, res) => {
       } else {
         console.log("OTP send successfull", otp);
         res.status(200).json({ message: otp });
+        CreateUser();
       }
     });
+
+    async function CreateUser() {
+      const user = await User.create({
+        FirstName: FirstName,
+        LastName: LastName,
+        Email: Email.toLowerCase(),
+        Password: Password,
+        UserID: UserID,
+      });
+      console.log("data store done :");
+    }
+
   }
 });
 
@@ -95,46 +105,71 @@ app.post("/SignUp", async (req, res) => {
 app.post("/Login", async (req, res) => {
   const { Email, Password } = req.body;
   console.log(req.body);
-  let email = Email.toLowerCase();
-  const LoginUser = await User.findOne({ Email: email, Password: Password });
-  if (LoginUser) {
-    res.status(200).json({ message: " User found" });
-  } else {
-    res
-      .status(500)
-      .json({ message: "Email or Password wrong or User does not exist" });
+  const LoginUser = await User.findOne({ Email: Email.toLowerCase() });
+  
+  if(LoginUser){
+
+    const isPasswordValid= await LoginUser.isPasswordCorrect(Password);
+  
+    if (isPasswordValid) {
+      res.status(200).json({ message: " User found" });
+    } else {
+      res
+        .status(401)
+        .json({ message: "Incorrect Password " });
+    }
   }
+
+  else{
+   
+      res.status(401).json({message:"Email Not Valid"});
+
+  }
+
+
+
 });
 
 // Forgot Password
+
 app.post("/ForgotPassword", async (req, res) => {
   const { Email } = req.body;
-  console.log(req.body);
-  let email = Email.toLowerCase();
-  const ForgotPasswordInfo = await User.findOne({ Email: email });
-  console.log(ForgotPasswordInfo);
-  if (ForgotPasswordInfo) {
-    let mailOptions = {
-      from: process.env.GMAIL_USER,
-      to: email,
-      subject: "Forgot Password",
-      text: `Your Password be : ${ForgotPasswordInfo.Password}`,
-      html: ` <h2> Your Password be : ${ForgotPasswordInfo.Password} </h2>`,
-    };
 
-    transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        console.error(error);
-        return res.status(500).json({ message: "Server error try later" });
-      } else {
-        console.log("password send to mail");
-        res.status(200).json({ message: "Password send to your Email" });
-      }
-    });
-  } else {
-    res.status(500).json({ message: "User does not exist" });
+  if (!Email) {
+    return res.status(400).json({ message: "Please enter an email address." });
   }
+
+  const ForgotPasswordInfo = await User.findOne({ Email: Email.toLowerCase() });
+  if (!ForgotPasswordInfo) {
+    return res.status(404).json({ message: "User does not exist." });
+  }
+
+
+  let mailOptions = {
+    from: process.env.GMAIL_USER,
+    to: Email,
+    subject: "Forgot Password",
+    text: `Your new password: ${otp}`,
+    html: `<h2>Your new password: ${otp}</h2>`,
+  };
+
+  transporter.sendMail(mailOptions, async (error, info) => {
+    if (error) {
+      return res.status(500).json({ message: "Failed to send email. Try again later." });
+    }
+    console.log("new password: ",otp);
+    ForgotPasswordInfo.Password = otp; 
+    try {
+      await ForgotPasswordInfo.save();
+      res.status(200).json({ message: "New password sent to your email." });
+    } catch (err) {
+      res.status(500).json({ message: "Failed to update password. Try again later." });
+    }
+  });
 });
+
+
+
 
 //  Add Recipe
 app.post("/Add", async (req, res) => {
