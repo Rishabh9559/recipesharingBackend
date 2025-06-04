@@ -1,8 +1,11 @@
-𝐑𝐞𝐜𝐢𝐩𝐞 𝐬𝐡𝐚𝐫𝐢𝐧𝐠 𝐩𝐥𝐚𝐭𝐟𝐨𝐫𝐦,
-Frontend Tool :  React
-Backend Tool :  Node.js 
-Database:  Mondodb, Supabase (S3)
-Mail:  NodeMailer
-Session Management:  JWT
+𝐑𝐞𝐜𝐢𝐩𝐞 𝐬𝐡𝐚𝐫𝐢𝐧𝐠 𝐩𝐥𝐚𝐭𝐟𝐨𝐫𝐦 https://lnkd.in/gvpvYpvx  <br>
+Frontend Tool : React <br>
+Backend Tool : Node.js  <br>
+Database: Mongodb , Supabase (S3) <br>
+Mail: NodeMailer <br>
+Session Management: JWT <br>
 
-𝓡𝓮𝒸𝒾𝓅𝓮 𝒮𝒽𝒶𝓇𝒾𝓃𝓰 𝒫𝓁𝒶𝓉𝒻𝓸𝓇𝓂 𝓮𝓃𝒶𝒷𝓁𝓮𝓈 𝓊𝓈𝓮𝓇𝓈 𝓉𝓸 𝓮𝓍𝓅𝓁𝓸𝓇𝓮 𝒶𝓃𝒹 𝓈𝒽𝒶𝓇𝓮 𝒸𝓊𝓁𝒾𝓃𝒶𝓇𝓎 𝒾𝒹𝓮𝒶𝓈 𝓮𝒻𝒻𝓸𝓇𝓉𝓁𝓮𝓈𝓈𝓁𝓎. 𝓘𝓉 𝒻𝓮𝒶𝓉𝓊𝓇𝓮𝓈 𝓁𝓸𝓰𝒾𝓃, 𝓈𝒾𝓰𝓃𝓊𝓅, 𝒪𝒯𝒫-𝒷𝒶𝓈𝓮𝒹 𝓁𝓸𝓰𝒾𝓃, 𝒶𝓃𝒹 𝓅𝒶𝓈𝓈𝓌𝓸𝓇𝒹 𝓇𝓮𝒸𝓸𝓋𝓮𝓇𝓎 𝓊𝓈𝒾𝓃𝓰 𝒩𝓸𝒹𝓮𝓜𝒶𝒾𝓁𝓮𝓇. 𝒰𝓈𝓮𝓇𝓈 𝒸𝒶𝓃 𝒸𝓇𝓮𝒶𝓉𝓮 𝓅𝓇𝓸𝒻𝒾𝓁𝓮𝓈, 𝒶𝒹𝒹 𝓇𝓮𝒸𝒾𝓅𝓮𝓈, 𝓮𝓍𝓅𝓁𝓸𝓇𝓮 𝒸𝒶𝓉𝓮𝓰𝓸𝓇𝒾𝓏𝓮𝒹 𝓇𝓮𝒸𝒾𝓅𝓮𝓈, 𝒶𝓃𝒹 𝓃𝒶𝓋𝒾𝓰𝒶𝓉𝓮 𝒶 𝓅𝓮𝓇𝓈𝓸𝓃𝒶𝓁𝒾𝓏𝓮𝒹 𝒽𝓸𝓂𝓮𝓅𝒶𝓰𝓮.
+A Recipe Sharing Platform enables users to explore and share culinary ideas effortlessly. It features login, signup, OTP-based login, and password recovery using NodeMailer. Users can create profiles, add recipes, explore categorized recipes, and navigate a personalized homepage. <br>
+Github link: https://lnkd.in/gTpZY3v3 <br>
+Github link: https://lnkd.in/gvVbzTah <br>
+
